@@ -1,3 +1,4 @@
 nltk==3.0.2
+numpy==1.9.2
 virtualenv==13.0.3
 wheel==0.24.0

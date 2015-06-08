@@ -1,6 +1,11 @@
 import nltk
 
-import sys
-for pth in sys.path:
-    print(pth)
-print('bonjour')
+sentence = """
+Les couleurs de maison sont le rouge, jaune, bleu, vert et blanc.
+"""
+nltk.data.load('tokenizers/punkt/french.pickle')
+
+tokens = nltk.word_tokenize(sentence)
+tagged = nltk.pos_tag(tokens)
+entities = nltk.chunk.ne_chunk(tagged)
+print(entities)

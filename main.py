@@ -5,6 +5,12 @@ from nltk.corpus import treebank
 #I shot an elephant in my pajamas
 #"""
 
+sentenceHandle = open('Einstein.txt', 'r', -1, 'UTF-8')
+numberOfSentences = 0
+for line in sentenceHandle.readlines():
+    print(line)
+    numberOfSentences += 1
+sentenceHandle.close()
 
 groucho_grammar = nltk.CFG.fromstring("""
 S -> NP VP

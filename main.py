@@ -1,6 +1,7 @@
 import nltk
 import pdb
 import sys
+import re
 from nltk import *
 
 class RulesGenerator:
@@ -13,8 +14,8 @@ class RulesGenerator:
 
   def loadGrammar(self):
     with open(self.grammarFile) as f:
-      my_grammar = nltk.CFG.fromstring(f.read())
-      self.parser = nltk.ChartParser(my_grammar)
+      my_grammar = grammar.FeatureGrammar.fromstring(f.read())
+      self.parser = nltk.FeatureEarleyChartParser(my_grammar)
 
   def loadSentences(self):
     with open(self.sentencesFile) as f:
@@ -22,13 +23,14 @@ class RulesGenerator:
 
   def generateRules(self, outputFile):
     for sentence in self.sentences:
-      sys.stdout.write(sentence)
+      sanitized_sentence = re.sub(r'\.', '', sentence)
+      sys.stdout.write(sanitized_sentence)
 
-      trees = self.parser.parse(sentence.split())
+      trees = self.parser.parse(sanitized_sentence.split())
       for tree in trees:
         print(tree)
         #tree.draw()
 
 if __name__ == '__main__':
-  generator = RulesGenerator('grammaire.cfg', 'text1.txt')
+  generator = RulesGenerator('grammaire2.cfg', 'texte2.txt')
   generator.generateRules('out.clp')

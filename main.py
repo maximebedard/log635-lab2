@@ -31,8 +31,8 @@ class RulesGenerator:
       trees = self.parser.parse(sanitized_sentence.split())
       for tree in trees:
         print(tree)
-        #tree.draw()
+        tree.draw()
 
 if __name__ == '__main__':
-  generator = RulesGenerator('grammaire.cfg', 'texte.txt')
+  generator = RulesGenerator('grammaire3.cfg', 'texte.txt')
   generator.generateRules('out.clp')

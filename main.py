@@ -23,7 +23,9 @@ class RulesGenerator:
 
   def generateRules(self, outputFile):
     for sentence in self.sentences:
-      sanitized_sentence = re.sub(r'\.', '', sentence)
+      if sentence.startswith('#'): continue
+
+      sanitized_sentence = re.sub(r'(\.|\,|\')', ' ', sentence)
       sys.stdout.write(sanitized_sentence)
 
       trees = self.parser.parse(sanitized_sentence.split())
@@ -32,5 +34,5 @@ class RulesGenerator:
         #tree.draw()
 
 if __name__ == '__main__':
-  generator = RulesGenerator('grammaire2.cfg', 'texte2.txt')
+  generator = RulesGenerator('grammaire.cfg', 'texte.txt')
   generator.generateRules('out.clp')

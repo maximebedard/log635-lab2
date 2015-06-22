@@ -7,4 +7,9 @@ Le propriétaire de la maison verte boit du café.
 La personne qui fume des Pall Mall a des oiseaux.
 Le propriétaire de la maison jaune fume des Dunhill.
 La personne qui vit dans la maison du centre boit du jus d'orange.
-Le Norvégien habite la première maison et il vit juste à côté de la maison bleue. L'homme qui fume les Blend vit à côté de celui qui a des chats. L'homme qui a un cheval est le voisin de celui qui fume des Dunhill. Le propriétaire qui fume des Blue Master boit de la bière. L'Allemand fume des Prince. L'homme qui fume des Blend a un voisin qui boit de l'eau.
+Le Norvégien habite la première maison et il vit juste à côté de la maison bleue.
+L'homme qui fume les Blend vit à côté de celui qui a des chats.
+L'homme qui a un cheval est le voisin de celui qui fume des Dunhill.
+Le propriétaire qui fume des Blue Master boit de la bière.
+L'Allemand fume des Prince.
+L'homme qui fume des Blend a un voisin qui boit de l'eau.

@@ -1,31 +1,34 @@
 import nltk
-from nltk.corpus import treebank
+import pdb
+import sys
+from nltk import *
 
-#sentence = """
-#I shot an elephant in my pajamas
-#"""
+class RulesGenerator:
+  def __init__(self, grammarFile, sentencesFile):
+    self.grammarFile   = grammarFile
+    self.sentencesFile = sentencesFile
 
-sentenceHandle = open('Einstein.txt', 'r', -1, 'UTF-8')
-numberOfSentences = 0
-for line in sentenceHandle.readlines():
-    print(line)
-    numberOfSentences += 1
-sentenceHandle.close()
+    self.loadGrammar()
+    self.loadSentences()
 
-groucho_grammar = nltk.CFG.fromstring("""
-S -> NP VP
-PP -> P NP
-NP -> Det N | Det N PP | 'I'
-VP -> V NP | VP PP
-Det -> 'an' | 'my'
-N -> 'elephant' | 'pajamas'
-V -> 'shot'
-P -> 'in'
-""")
+  def loadGrammar(self):
+    with open(self.grammarFile) as f:
+      my_grammar = nltk.CFG.fromstring(f.read())
+      self.parser = nltk.ChartParser(my_grammar)
 
-sent = ['I', 'shot', 'an', 'elephant', 'in', 'my', 'pajamas']
-parser = nltk.ChartParser(groucho_grammar)
-for tree in parser.parse(sent):
-    print(tree)
-    tree.draw()
+  def loadSentences(self):
+    with open(self.sentencesFile) as f:
+      self.sentences = f.readlines()
 
+  def generateRules(self, outputFile):
+    for sentence in self.sentences:
+      sys.stdout.write(sentence)
+
+      trees = self.parser.parse(sentence.split())
+      for tree in trees:
+        print(tree)
+        #tree.draw()
+
+if __name__ == '__main__':
+  generator = RulesGenerator('grammaire.cfg', 'text1.txt')
+  generator.generateRules('out.clp')

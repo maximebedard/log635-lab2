@@ -13,25 +13,31 @@ class RulesGenerator:
     self.loadSentences()
 
   def loadGrammar(self):
-    with open(self.grammarFile) as f:
+    with open(self.grammarFile, 'r') as f:
       my_grammar = grammar.FeatureGrammar.fromstring(f.read())
       self.parser = nltk.FeatureEarleyChartParser(my_grammar)
 
   def loadSentences(self):
-    with open(self.sentencesFile) as f:
+    with open(self.sentencesFile, 'r') as f:
       self.sentences = f.readlines()
 
   def generateRules(self, outputFile):
-    for sentence in self.sentences:
-      if sentence.startswith('#'): continue
+    with open(outputFile, 'w') as f:
+      for sentence in self.sentences:
+        if sentence.startswith('#'): continue
 
-      sanitized_sentence = re.sub(r'(\.|\,|\')', ' ', sentence)
-      sys.stdout.write(sanitized_sentence)
+        sanitizedSentence = re.sub(r'(\.|\,|\')', ' ', sentence)
+        sys.stdout.write(sanitizedSentence)
 
-      trees = self.parser.parse(sanitized_sentence.split())
-      for tree in trees:
-        print(tree)
-        tree.draw()
+        trees = self.parser.parse(sanitizedSentence.split())
+        for tree in trees:
+          self.writeRule(f, tree)
+          print(tree)
+          tree.draw()
+
+  def writeRule(self, f, tree):
+    pdb.set_trace()
+    pass
 
 if __name__ == '__main__':
   generator = RulesGenerator('grammaire3.cfg', 'texte.txt')

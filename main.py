@@ -31,14 +31,14 @@ class RulesGenerator:
 
         trees = self.parser.parse(sanitizedSentence.split())
         for tree in trees:
-          self.writeRule(f, tree)
           print(tree)
+          print(tree.label()['SEM'])
           tree.draw()
 
   def writeRule(self, f, tree):
-    pdb.set_trace()
+    #sem = tree.label()['SEM']
     pass
 
 if __name__ == '__main__':
-  generator = RulesGenerator('grammaire3.cfg', 'texte.txt')
+  generator = RulesGenerator('grammaire4.cfg', 'texte.txt')
   generator.generateRules('out.clp')

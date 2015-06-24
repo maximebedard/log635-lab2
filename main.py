@@ -26,7 +26,7 @@ class RulesGenerator:
       for sentence in self.sentences:
         if sentence.startswith('#'): continue
 
-        sanitizedSentence = re.sub(r'(\.|\,|\')', ' ', sentence)
+        sanitizedSentence = re.sub(r'(\.|\,|\')', ' ', sentence).lower()
         sys.stdout.write(sanitizedSentence)
 
         trees = self.parser.parse(sanitizedSentence.split())

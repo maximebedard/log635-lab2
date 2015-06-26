@@ -40,5 +40,5 @@ class RulesGenerator:
     pass
 
 if __name__ == '__main__':
-  generator = RulesGenerator('grammaire4.cfg', 'texte.txt')
+  generator = RulesGenerator('grammaire.cfg', 'texte.txt')
   generator.generateRules('out.clp')

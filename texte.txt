@@ -1,6 +1,6 @@
 #Les couleurs de maison sont le rouge, jaune, bleu, vert et blanc.
-L'Anglais vit dans une maison rouge.
-Le Suedois a des chiens comme animaux domestiques.
+#L'Anglais vit dans une maison rouge.
+#Le Suedois a des chiens comme animaux domestiques.
 La personne qui boit du the est un Danois.
 #La maison verte est à gauche de la maison blanche.
 #Le propriétaire de la maison verte boit du café.

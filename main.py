@@ -2,6 +2,7 @@ import nltk
 import pdb
 import sys
 import re
+import unicodedata
 from nltk import *
 
 class RulesGenerator:
@@ -26,7 +27,7 @@ class RulesGenerator:
       for sentence in self.sentences:
         if sentence.startswith('#'): continue
 
-        sanitizedSentence = re.sub(r'(\.|\,|\')', ' ', sentence).lower()
+        sanitizedSentence = self.sanitizeSentence(sentence)
         sys.stdout.write(sanitizedSentence)
 
         trees = self.parser.parse(sanitizedSentence.split())
@@ -34,6 +35,11 @@ class RulesGenerator:
           print(tree)
           print(tree.label()['SEM'])
           tree.draw()
+
+  def sanitizeSentence(self, sentence):
+    sanitizedSentence = re.sub(r'(\.|\,|\')', ' ', sentence).lower()
+    sanitizedSentence = ''.join((c for c in unicodedata.normalize('NFD', sanitizedSentence) if unicodedata.category(c) != 'Mn'))
+    return sanitizedSentence
 
   def writeRule(self, f, tree):
     #sem = tree.label()['SEM']

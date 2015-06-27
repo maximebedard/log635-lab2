@@ -2,14 +2,14 @@ Les couleurs de maison sont le rouge, jaune, bleu, vert et blanc.
 L'Anglais vit dans une maison rouge.
 Le Suedois a des chiens comme animaux domestiques.
 La personne qui boit du the est un Danois.
-#La maison verte est à gauche de la maison blanche.
-#Le propriétaire de la maison verte boit du café.
-#La personne qui fume des Pall Mall a des oiseaux.
-#Le propriétaire de la maison jaune fume des Dunhill.
-#La personne qui vit dans la maison du centre boit du jus d'orange.
-#Le Norvégien habite la première maison et il vit juste à côté de la maison bleue.
-#L'homme qui fume les Blend vit à côté de celui qui a des chats.
-#L'homme qui a un cheval est le voisin de celui qui fume des Dunhill.
-#Le propriétaire qui fume des Blue Master boit de la bière.
-#L'Allemand fume des Prince.
-#L'homme qui fume des Blend a un voisin qui boit de l'eau.
+La maison verte est a gauche de la maison blanche.
+Le proprietaire de la maison verte boit du cafe.
+La personne qui fume des Pall Mall a des oiseaux.
+Le proprietaire de la maison jaune fume des Dunhill.
+La personne qui vit dans la maison du centre boit du jus d'orange.
+Le Norvegien habite la premiere maison et il vit juste a cote de la maison bleue.
+L'homme qui fume les Blend vit a cote de celui qui a des chats.
+L'homme qui a un cheval est le voisin de celui qui fume des Dunhill.
+Le proprietaire qui fume des Blue Master boit de la biere.
+L'Allemand fume des Prince.
+L'homme qui fume des Blend a un voisin qui boit de l'eau.

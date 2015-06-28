@@ -64,6 +64,7 @@ class RulesGenerator:
           label = tree.label()['SEM']
           self.writeRule(f, str(label))
           print(tree)
+          #tree.draw()
 
   def stats(self):
     print("{0} ambiguous sentences".format(len(self.ambiguous)))
@@ -96,6 +97,20 @@ class RulesGenerator:
   """
   def writeRule(self, f, label):
     f.write('; {0}\n'.format(label))
+
+    # remove trailling ( )
+    if label.startswith('('):
+      label = label[1:len(label) - 1]
+
+    # Add unknown subjects? This is sketchy...
+    # this should have been done on the grammar side, but ¯\_(ツ)_/¯
+    i = 0
+    for match in re.findall(r'\\\w\.', label):
+      char = match.strip('\\.')
+
+      label = label.replace(match, '')
+      label = label.replace(char + ',', 'personne{0},'.format(i))
+      i += 1
 
     # We match stuff like abc(abc,abc) and replace it by AbcAbcAbc == multiple args facts
     pattern = r'\w+\(\w+(?:,\w+)*\)'

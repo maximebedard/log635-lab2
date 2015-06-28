@@ -95,7 +95,7 @@ class RulesGenerator:
   """
   Generate the jess rule from the generated sentence label
   """
-  def writeRule(self, f, label):
+  def writeRule(self, f, label, fact = None, subj = None):
     f.write('; {0}\n'.format(label))
 
     # remove trailling ( )
@@ -111,6 +111,13 @@ class RulesGenerator:
       label = label.replace(match, '')
       label = label.replace(char + ',', 'personne{0},'.format(i))
       i += 1
+
+    # Extract & into seperate facts
+    # Don't know what to do about this :/
+    #subLabels = label.split('&')
+    #if len(subLabels) > 1:
+    #  for l in subLabels:
+    #    self.writeRule(f, l)
 
     # We match stuff like abc(abc,abc) and replace it by AbcAbcAbc == multiple args facts
     pattern = r'\w+\(\w+(?:,\w+)*\)'

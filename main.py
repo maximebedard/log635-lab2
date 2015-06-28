@@ -15,6 +15,9 @@ class RulesGenerator:
   def __init__(self, grammarFile, sentencesFile):
     self.grammarFile   = grammarFile
     self.sentencesFile = sentencesFile
+    self.ambiguous = []
+    self.notDefined = []
+    self.factsCount = 0
 
     self.loadGrammar()
     self.loadSentences()
@@ -38,6 +41,7 @@ class RulesGenerator:
   Generate an output file for all the rules
   """
   def generateRules(self, outputFile):
+    self.factsCount = 0
     with open(outputFile, 'w') as f:
       for sentence in self.sentences:
 
@@ -51,34 +55,26 @@ class RulesGenerator:
 
         trees = self.parse(sanitizedSentence)
 
-        self.printTrees(f, trees)
+        if len(trees) > 1:
+          self.ambiguous.append(sanitizedSentence)
+        elif len(trees) == 0:
+          self.notDefined.append(sanitizedSentence)
 
-  """
-  Print all trees and generate the jess facts
-  """
-  def printTrees(self, f, trees):
-    self.showAmbiguousWarning(trees)
+        for tree in trees:
+          label = tree.label()['SEM']
+          self.writeRule(f, str(label))
+          print(tree)
 
-    for tree in trees:
-      label = tree.label()['SEM']
+  def stats(self):
+    print("{0} ambiguous sentences".format(len(self.ambiguous)))
+    for s in self.ambiguous:
+      print("- {0}".format(s))
 
-      self.showHardToParseWarning(label)
-      self.writeRule(f, str(label))
-      print(tree)
+    print("{0} sentences that the grammar cannot define".format(len(self.notDefined)))
+    for s in self.notDefined:
+      print("- {0}".format(s))
 
-  """
-  Display a warning if symbols are present in the label
-  """
-  def showHardToParseWarning(self, label):
-    if re.search(r'[\\\.]', str(label)):
-      print(' => this sentence will be hard to parse')
-
-  """
-  Display a warning if the grammar is ambiguous
-  """
-  def showAmbiguousWarning(self, trees):
-    if len(trees) > 1:
-      print(' => is ambiguous...')
+    print("{0} jess compatible facts generated".format(self.factsCount))
 
   """
   Return a list of tokens from sentence
@@ -108,6 +104,7 @@ class RulesGenerator:
       for match in matches:
         tokens = list(filter(None, re.split(r'\(|,|\)', match)))
         fact = ' '.join(tokens)
+        self.factsCount += 1
         f.write('({0})\n'.format(fact))
 
         _camelCase = camelCase(fact)
@@ -115,9 +112,9 @@ class RulesGenerator:
 
       matches = re.findall(pattern, label)
 
-    #f.write(';' + label + '\n')
     f.write('\n')
 
 if __name__ == '__main__':
   generator = RulesGenerator('grammaire.cfg', 'texte.txt')
   generator.generateRules('out.clp')
+  generator.stats()

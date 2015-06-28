@@ -5,6 +5,12 @@ import re
 import unicodedata
 from nltk import *
 
+"""
+abc def return AbcDef
+"""
+def camelCase(string):
+  return ''.join(x for x in string.title() if not x.isspace())
+
 class RulesGenerator:
   def __init__(self, grammarFile, sentencesFile):
     self.grammarFile   = grammarFile
@@ -45,17 +51,20 @@ class RulesGenerator:
 
         trees = self.parse(sanitizedSentence)
 
-        self.showAmbiguousWarning(trees)
-        self.showTrees(trees)
+        self.printTrees(f, trees)
 
-  def showTrees(self, trees):
+  """
+  Print all trees and generate the jess facts
+  """
+  def printTrees(self, f, trees):
+    self.showAmbiguousWarning(trees)
+
     for tree in trees:
       label = tree.label()['SEM']
-      print(label)
 
       self.showHardToParseWarning(label)
+      self.writeRule(f, str(label))
       print(tree)
-      tree.draw()
 
   """
   Display a warning if symbols are present in the label
@@ -89,9 +98,40 @@ class RulesGenerator:
   """
   Generate the jess rule from the generated sentence label
   """
-  def writeRule(self, f, tree):
-    #sem = tree.label()['SEM']
-    pass
+  def writeRule(self, f, label):
+    f.write('; {0}\n'.format(label))
+
+    pattern = r'\w+\(\w+\)'
+    # We match stuff like: abc(abc) and replace the original string with AbcAbc == fact
+    matches = re.findall(pattern, label)
+    while matches:
+      for match in matches:
+        tokens = re.split(r'\(|\)', match)
+        fact = ' '.join(tokens).strip()
+        f.write('({0})\n'.format(fact))
+
+        _camelCase = camelCase(fact)
+
+        label = label.replace(match, _camelCase)
+
+      matches = re.findall(pattern, label)
+
+
+    # We match stuff like abc(abc,abc) and replace it by AbcAbcAbc == multiple args facts
+    # TODO
+    pattern = r''
+    matches = re.findall(pattern, label)
+    #while matches:
+    #  for match in matches:
+
+    # We match stuff like abc(abc & def) and replace it by abc(abc) & abc(def)  == mutiple facts
+    # TODO
+
+    # We replace all fuckups
+    # TODO
+
+    f.write(';' + label + '\n')
+    f.write('\n')
 
 if __name__ == '__main__':
   generator = RulesGenerator('grammaire.cfg', 'texte.txt')

@@ -101,36 +101,21 @@ class RulesGenerator:
   def writeRule(self, f, label):
     f.write('; {0}\n'.format(label))
 
-    pattern = r'\w+\(\w+\)'
-    # We match stuff like: abc(abc) and replace the original string with AbcAbc == fact
+    # We match stuff like abc(abc,abc) and replace it by AbcAbcAbc == multiple args facts
+    pattern = r'\w+\(\w+(?:,\w+)*\)'
     matches = re.findall(pattern, label)
     while matches:
       for match in matches:
-        tokens = re.split(r'\(|\)', match)
-        fact = ' '.join(tokens).strip()
+        tokens = list(filter(None, re.split(r'\(|,|\)', match)))
+        fact = ' '.join(tokens)
         f.write('({0})\n'.format(fact))
 
         _camelCase = camelCase(fact)
-
         label = label.replace(match, _camelCase)
 
       matches = re.findall(pattern, label)
 
-
-    # We match stuff like abc(abc,abc) and replace it by AbcAbcAbc == multiple args facts
-    # TODO
-    pattern = r''
-    matches = re.findall(pattern, label)
-    #while matches:
-    #  for match in matches:
-
-    # We match stuff like abc(abc & def) and replace it by abc(abc) & abc(def)  == mutiple facts
-    # TODO
-
-    # We replace all fuckups
-    # TODO
-
-    f.write(';' + label + '\n')
+    #f.write(';' + label + '\n')
     f.write('\n')
 
 if __name__ == '__main__':

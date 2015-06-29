@@ -112,12 +112,20 @@ class RulesGenerator:
       label = label.replace(char + ',', 'personne{0},'.format(i))
       i += 1
 
-    # Extract & into seperate facts
-    # Don't know what to do about this :/
-    #subLabels = label.split('&')
-    #if len(subLabels) > 1:
-    #  for l in subLabels:
-    #    self.writeRule(f, l)
+    # Extract & into seperate facts an get the first subject
+    # Usually the first subject is the first argument
+    # This is even more sketchy :/
+    subLabels = label.split('&')
+    if subLabels and len(subLabels) > 1:
+      match = re.search(r'\w+\((\w+\(\w+\))\)?', label)
+      subject = camelCase(re.sub(r'\(|\)', ' ', match.group(1)))
+      for l in subLabels:
+        self.writeRule(f, l, subj = subject)
+
+    if subj:
+      for match in re.findall(r'\?\w+', label):
+        label = label.replace(match, subj)
+
 
     # We match stuff like abc(abc,abc) and replace it by AbcAbcAbc == multiple args facts
     pattern = r'\w+\(\w+(?:,\w+)*\)'
